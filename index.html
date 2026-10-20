@@ -22,8 +22,7 @@
       --text-dark: #3e3835;
       --text-muted: #827871;
       --accent-warm: #685d56;
-      --accent-soft: #ede9e3;
-      --star-gold: #f59e0b;
+      --star-theme: #6e6259; /* สีดาวคุมโทนเดียวกับเว็บ */
       --shadow-soft: 0 10px 30px rgba(62, 56, 53, 0.05);
     }
 
@@ -171,28 +170,25 @@
       letter-spacing: 0.3px;
     }
 
-    /* กล่องข้อความหัวข้อรีวิวตามภาพเป๊ะๆ ไม่ตกหล่น */
+    /* กล่องข้อความหัวข้อรีวิวแบบเรียงตรงเป๊ะ */
     .section-title-review {
       text-align: center;
       margin-bottom: 18px;
       line-height: 1.6;
     }
-    .review-art-decor {
+    .review-art-line1 {
       font-size: 13.5px;
-      color: #685d56;
+      color: #6e6259;
       display: block;
-      margin-bottom: 2px;
-      white-space: nowrap;
-      overflow-x: auto;
-      scrollbar-width: none;
+      margin-bottom: 4px;
+      letter-spacing: 0.5px;
     }
-    .review-art-decor::-webkit-scrollbar { display: none; }
-    .review-art-text {
-      font-size: 14.5px;
+    .review-art-line2 {
+      font-size: 14px;
       font-weight: 700;
       color: var(--text-dark);
+      display: block;
       letter-spacing: 0.5px;
-      white-space: nowrap;
     }
 
     /* Highlights Horizontal */
@@ -281,7 +277,7 @@
     .review-stars {
       font-size: 13px;
       letter-spacing: 2px;
-      color: var(--star-gold);
+      color: var(--star-theme);
     }
 
     .review-desc {
@@ -323,13 +319,13 @@
     .star-btn {
       background: none;
       border: none;
-      font-size: 30px;
+      font-size: 32px;
       cursor: pointer;
       color: #ded7ce;
       transition: transform 0.15s, color 0.15s;
     }
     .star-btn.active {
-      color: #f59e0b;
+      color: var(--star-theme);
       transform: scale(1.1);
     }
 
@@ -502,10 +498,10 @@
 
     <!-- ส่วนรีวิว -->
     <div class="section-card">
-      <!-- ข้อความหัวข้อรีวิวแบบเป๊ะตามรูป -->
+      <!-- ข้อความหัวข้อรีวิวตามที่คุณกำหนดเป๊ะ 100% เรียงบรรทัดตรงตามภาพ -->
       <div class="section-title-review">
-        <span class="review-art-decor">˙✧˖° 𖥻 ֹ ꙳ ִ 𓍼 ♡ 𓍼 ꙳ ֹ 𖥻 ˳ ˚</span>
-        <span class="review-art-text">รีวิวจากการดูดวง</span>
+        <span class="review-art-line1">𓈒.. ུ݄  .𖤝֯.   ꙳̣̥֯𓍼༷ͦ♡֯𓍼ͦ꙳̣̥   .𖤝.֯ ུ  ݄.. ˳</span>
+        <span class="review-art-line2">⠀⠀ ཾ:݂݂݁ ׅ  รีวิวจากการดูดวง⠀ ⠀˳⠀ ཾ:݂݂݁ ׅ  ⠀ ˳</span>
       </div>
       
       <!-- รายการรีวิว -->
@@ -515,7 +511,7 @@
 
       <hr class="review-divider">
 
-      <!-- กล่องฟอร์มเขียนรีวิวด้านล่าง -->
+      <!-- กล่องฟอร์มเขียนรีวิวด้านล่าง (ดาวคุมโทนสีเดียวกับเว็บ) -->
       <div class="review-form-inline">
         <div class="star-rating-row">
           <button type="button" class="star-btn active" onclick="setStars(1)">★</button>
