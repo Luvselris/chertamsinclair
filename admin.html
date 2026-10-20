@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard ♡ CHERTAMSINCLAIR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+  <style>
+    :root {
+      --bg-color: #f7f5f2;
+      --card-bg: rgba(255, 255, 255, 0.96);
+      --card-border: #e8e3dc;
+      --text-main: #3e3835;
+      --text-muted: #827871;
+      --accent-warm: #685d56;
+      --glow-shadow: 0 10px 30px rgba(62, 56, 53, 0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Quicksand', 'Mitr', sans-serif; }
+    body {
+      background: radial-gradient(circle at top, #faf9f6 0%, #f7f5f2 55%, #eeebe5 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 24px 16px 80px;
+      display: flex;
+      justify-content: center;
+    }
+    .container { width: 100%; max-width: 480px; }
+    #loginView { min-height: 75vh; display: flex; flex-direction: column; justify-content: center; }
+    .login-card {
+      background: var(--card-bg);
+      border-radius: 30px;
+      padding: 38px 24px;
+      box-shadow: var(--glow-shadow);
+      border: 1px solid var(--card-border);
+      text-align: center;
+    }
+    .input-field, .textarea-field {
+      width: 100%; padding: 12px 16px;
+      border: 1px solid var(--card-border);
+      border-radius: 18px; font-size: 14px;
+      background: #faf8f5; color: var(--text-main);
+      outline: none; margin-bottom: 12px;
+    }
+    .input-field:focus, .textarea-field:focus { border-color: var(--accent-warm); }
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #7a6e65, #5a4f47);
+      color: #fff; border: none; padding: 13px;
+      border-radius: 20px; font-size: 14.5px;
+      font-weight: 600; cursor: pointer;
+      box-shadow: 0 4px 14px rgba(90, 79, 71, 0.25);
+    }
+    #dashboardView { display: none; }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .panel-card {
+      background: var(--card-bg);
+      border-radius: 26px; padding: 22px 18px;
+      box-shadow: var(--glow-shadow);
+      border: 1px solid var(--card-border);
+      margin-bottom: 20px;
+    }
+    .panel-title {
+      font-size: 15.5px; font-weight: 700;
+      color: var(--accent-warm); margin-bottom: 14px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .hl-admin-card {
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 20px; padding: 16px;
+      margin-bottom: 16px;
+    }
+    .stories-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 6px; margin-top: 10px;
+    }
+    .story-slot {
+      position: relative; aspect-ratio: 1;
+      border-radius: 12px; border: 1px dashed var(--card-border);
+      overflow: hidden; background: #faf8f5;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .story-slot img { width: 100%; height: 100%; object-fit: cover; }
+    .del-btn {
+      position: absolute; top: 2px; right: 2px;
+      background: rgba(220, 38, 38, 0.85);
+      color: #fff; border: none; border-radius: 50%;
+      width: 20px; height: 20px; font-size: 11px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- ล็อกอินแอดมิน: ใช้ label email & password ไม่เผยข้อมูลจริง -->
+    <div id="loginView">
+      <div class="login-card">
+        <h2 style="color:var(--text-main); margin-bottom:20px; font-weight:700;">Admin Login ♡</h2>
+        <form onsubmit="handleLogin(event)">
+          <input type="text" id="userInput" class="input-field" placeholder="email" required>
+          <input type="password" id="passInput" class="input-field" placeholder="password" required>
+          <button type="submit" class="btn-submit">เข้าสู่ระบบ ✨</button>
+          <p id="loginError" style="color:#ef4444; font-size:12px; margin-top:10px; display:none;">email หรือ password ไม่ถูกต้องค่ะ</p>
+        </form>
+      </div>
+    </div>
+
+    <!-- แผงแดชบอร์ด -->
+    <div id="dashboardView">
+      <div class="top-bar">
+        <div style="font-weight:700; color:var(--text-main); font-size:17px;">Dashboard ♡ CHERTAMSINCLAIR</div>
+        <button onclick="handleLogout()" style="background:#fff; border:1px solid var(--card-border); padding:6px 16px; border-radius:18px; color:var(--text-main); font-size:12px; cursor:pointer;">ออกระบบ</button>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-title"><span>🎀 ข้อมูลร้านและรูปภาพ</span></div>
+        <div style="margin-bottom:12px;">
+          <label style="font-size:12px; color:var(--text-muted); font-weight:600; display:block; margin-bottom:4px;">รูปแบนเนอร์:</label>
+          <input type="file" accept="image/*" onchange="uploadDirect(event, 'banner')">
+        </div>
+        <div style="margin-bottom:12px;">
+          <label style="font-size:12px; color:var(--text-muted); font-weight:600; display:block; margin-bottom:4px;">รูปโปรไฟล์:</label>
+          <input type="file" accept="image/*" onchange="uploadDirect(event, 'profile')">
+        </div>
+        <input type="text" id="storeNameInput" class="input-field" placeholder="CHERTAMSINCLAIR ♡">
+        <textarea id="storeBioInput" class="textarea-field" rows="3" placeholder="ข้อความแนะนำร้าน..."></textarea>
+        <input type="url" id="musicUrlInput" class="input-field" placeholder="ลิงก์ไฟล์เสียง .mp3">
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-title">
+          <span>✨ จัดการไฮไลท์ (ภาพชัดระดับ Full HD)</span>
+          <button type="button" style="background:#fff; border:1px solid var(--card-border); color:var(--text-main); padding:4px 12px; border-radius:14px; font-size:11px; cursor:pointer;" onclick="addNewHighlight()">+ เพิ่มไฮไลท์ใหม่</button>
+        </div>
+        <div id="highlightsAdminBox"></div>
+      </div>
+
+      <button type="button" class="btn-submit" id="saveAllBtn" style="font-size:15px; padding:15px; margin-bottom:20px;" onclick="saveAllToCloud()">
+        ☁️ บันทึกขึ้นระบบทันที (ภาพชัด 100%) ♡
+      </button>
+
+      <div class="panel-card">
+        <div class="panel-title"><span>🗑️ รีวิวจากลูกค้า</span></div>
+        <div id="reviewsAdminContainer"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // รหัสผ่านตามที่กำหนด
+    const AUTH_USER = "cheritamllwn@gmail.com";
+    const AUTH_PASS = "feynas431789TRFG81cher";
+
+    // ฐานข้อมูลเฉพาะของ CHERTAMSINCLAIR
+    const DB_SITE = "chertam_site_data";
+    const DB_HL = "chertam_site_highlights";
+    const DB_REVIEWS = "chertam_site_reviews";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCpAGDSy1NRgmLV_g7qJrCpwOhU9MrfQyY",
+      authDomain: "benefitie.firebaseapp.com",
+      projectId: "benefitie",
+      storageBucket: "benefitie.firebasestorage.app",
+      messagingSenderId: "270365672215",
+      appId: "1:270365672215:web:230d1491091e26ce83ed52"
+    };
+
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    let siteData = { banner: "", profile: "", storeName: "CHERTAMSINCLAIR ♡", storeBio: "", musicUrl: "https://file.garden/asG8Gt-rqWIpi3II/ssstik.io_1792501377002.mp3" };
+    let highlightsList = [];
+
+    window.onload = function() {
+      if (sessionStorage.getItem('chertam_admin_auth') === 'true') {
+        showDashboard();
+      }
+    };
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const u = document.getElementById('userInput').value.trim();
+      const p = document.getElementById('passInput').value.trim();
+      if (u === AUTH_USER && p === AUTH_PASS) {
+        sessionStorage.setItem('chertam_admin_auth', 'true');
+        showDashboard();
+      } else {
+        document.getElementById('loginError').style.display = 'block';
+      }
+    }
+
+    function handleLogout() {
+      sessionStorage.removeItem('chertam_admin_auth');
+      location.reload();
+    }
+
+    async function showDashboard() {
+      document.getElementById('loginView').style.display = 'none';
+      document.getElementById('dashboardView').style.display = 'block';
+
+      try {
+        const doc = await db.collection(DB_SITE).doc("content").get();
+        if (doc.exists) siteData = { ...siteData, ...doc.data() };
+
+        const snap = await db.collection(DB_HL).orderBy("order", "asc").get();
+        highlightsList = [];
+        for (const d of snap.docs) {
+          const hlItem = { id: d.id, ...d.data() };
+          const imgsSnap = await db.collection(DB_HL).doc(d.id).collection("slides").orderBy("idx", "asc").get();
+          if (!imgsSnap.empty) {
+            hlItem.images = imgsSnap.docs.map(imgDoc => imgDoc.data().url);
+          } else if (!hlItem.images) {
+            hlItem.images = [];
+          }
+          highlightsList.push(hlItem);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+
+      renderAdminPanels();
+      listenReviewsAdmin();
+    }
+
+    function renderAdminPanels() {
+      document.getElementById('storeNameInput').value = siteData.storeName || '';
+      document.getElementById('storeBioInput').value = siteData.storeBio || '';
+      document.getElementById('musicUrlInput').value = siteData.musicUrl || '';
+
+      const hlBox = document.getElementById('highlightsAdminBox');
+      hlBox.innerHTML = '';
+
+      if (highlightsList.length === 0) {
+        hlBox.innerHTML = '<p style="font-size:12px; color:var(--text-muted); padding:10px 0;">ยังไม่มีไฮไลท์ กดปุ่ม "+ เพิ่มไฮไลท์ใหม่" ได้เลยค่ะ</p>';
+        return;
+      }
+
+      highlightsList.forEach((hl, hIdx) => {
+        const card = document.createElement('div');
+        card.className = 'hl-admin-card';
+
+        let storiesHTML = '';
+        if (hl.images) {
+          hl.images.forEach((stImg, sIdx) => {
+            storiesHTML += `
+              <div class="story-slot">
+                <img src="${stImg}">
+                <button type="button" class="del-btn" onclick="removeStoryImage(${hIdx}, ${sIdx})">✕</button>
+              </div>
+            `;
+          });
+        }
+
+        card.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <div style="font-weight:700; color:var(--text-main); font-size:13.5px;">ไฮไลท์ที่ ${hIdx + 1}</div>
+            <button type="button" onclick="removeHighlight(${hIdx})" style="background:none; border:none; color:#ef4444; font-size:12px; cursor:pointer;">ลบไฮไลท์นี้ 🗑️</button>
+          </div>
+          <input type="text" class="input-field" value="${hl.title || ''}" placeholder="ชื่อไฮไลท์" onchange="highlightsList[${hIdx}].title = this.value">
+          <div style="font-size:12px; margin-bottom:8px; color:var(--text-muted);">
+            เปลี่ยนรูปปก: <input type="file" accept="image/*" onchange="changeHlCover(event, ${hIdx})">
+          </div>
+          <div style="font-size:12px; margin-bottom:8px; color:var(--text-muted);">
+            + เพิ่มรูปสตอรี่ (กดเลือกได้หลายรูปพร้อมกัน ชัดระดับ Full HD): <br>
+            <input type="file" accept="image/*" multiple onchange="addStoryImages(event, ${hIdx})">
+          </div>
+          <div class="stories-grid">${storiesHTML}</div>
+        `;
+        hlBox.appendChild(card);
+      });
+    }
+
+    function addNewHighlight() {
+      highlightsList.push({
+        title: `Credit Highlights`,
+        cover: "",
+        images: [],
+        order: highlightsList.length
+      });
+      renderAdminPanels();
+    }
+
+    async function removeHighlight(idx) {
+      if (confirm(`ต้องการลบไฮไลท์ที่ ${idx + 1} ใช่หรือไม่?`)) {
+        const item = highlightsList[idx];
+        if (item.id) {
+          const snap = await db.collection(DB_HL).doc(item.id).collection("slides").get();
+          snap.forEach(doc => doc.ref.delete());
+          await db.collection(DB_HL).doc(item.id).delete();
+        }
+        highlightsList.splice(idx, 1);
+        renderAdminPanels();
+      }
+    }
+
+    // บีบอัดระดับ Full HD (กว้าง 1080px คมชัดสูงมาก ไม่เบลอ 100%)
+    function compressImageHD(file, maxWidth = 1080, quality = 0.85) {
+      return new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            let w = img.width, h = img.height;
+            if (w > maxWidth) {
+              h = Math.round((h * maxWidth) / w);
+              w = maxWidth;
+            }
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, w, h);
+            resolve(canvas.toDataURL('image/jpeg', quality));
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function uploadDirect(e, key) {
+      if (e.target.files && e.target.files[0]) {
+        siteData[key] = await compressImageHD(e.target.files[0], 800, 0.85);
+      }
+    }
+
+    async function changeHlCover(e, idx) {
+      if (e.target.files && e.target.files[0]) {
+        highlightsList[idx].cover = await compressImageHD(e.target.files[0], 350, 0.85);
+        renderAdminPanels();
+      }
+    }
+
+    async function addStoryImages(e, idx) {
+      const files = Array.from(e.target.files);
+      if (!highlightsList[idx].images) highlightsList[idx].images = [];
+      const saveBtn = document.getElementById('saveAllBtn');
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'กำลังโหลดรูปภาพ... กรุณารอสักครู่ ⏳';
+
+      for (const file of files) {
+        const b64 = await compressImageHD(file, 1080, 0.85);
+        highlightsList[idx].images.push(b64);
+      }
+      renderAdminPanels();
+      saveBtn.disabled = false;
+      saveBtn.textContent = '☁️ บันทึกขึ้นระบบทันที (ภาพชัด 100%) ♡';
+    }
+
+    function removeStoryImage(hlIdx, storyIdx) {
+      highlightsList[hlIdx].images.splice(storyIdx, 1);
+      renderAdminPanels();
+    }
+
+    async function saveAllToCloud() {
+      const btn = document.getElementById('saveAllBtn');
+      btn.disabled = true;
+      btn.textContent = 'กำลังบันทึกข้อมูลแบบ HD ขึ้นระบบ... ⏳';
+
+      siteData.storeName = document.getElementById('storeNameInput').value;
+      siteData.storeBio = document.getElementById('storeBioInput').value;
+      siteData.musicUrl = document.getElementById('musicUrlInput').value.trim();
+
+      try {
+        await db.collection(DB_SITE).doc("content").set(siteData);
+
+        for (let i = 0; i < highlightsList.length; i++) {
+          const hl = highlightsList[i];
+          let docId = hl.id;
+
+          const hlDoc = {
+            title: hl.title || `Credit Highlights`,
+            cover: hl.cover || (hl.images && hl.images[0]) || "",
+            order: i
+          };
+
+          if (docId) {
+            await db.collection(DB_HL).doc(docId).set(hlDoc);
+          } else {
+            const docRef = await db.collection(DB_HL).add(hlDoc);
+            docId = docRef.id;
+            hl.id = docId;
+          }
+
+          // แยกเก็บรูปภาพทีละรูปใน Sub-collection "slides" (ไม่ติด Limit 1MB)
+          const slidesRef = db.collection(DB_HL).doc(docId).collection("slides");
+          
+          const existingSnap = await slidesRef.get();
+          const batch = db.batch();
+          existingSnap.forEach(d => batch.delete(d.ref));
+          await batch.commit();
+
+          const imgs = hl.images || [];
+          for (let sIdx = 0; sIdx < imgs.length; sIdx++) {
+            await slidesRef.doc(String(sIdx).padStart(4, '0')).set({
+              idx: sIdx,
+              url: imgs[sIdx]
+            });
+          }
+        }
+
+        alert('✨ บันทึกสำเร็จเรียบร้อยแล้วค่ะ! ภาพชัดระดับ Full HD ไม่จำกัดจำนวน');
+      } catch (err) {
+        console.error(err);
+        alert('เกิดข้อผิดพลาดในการบันทึก: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '☁️ บันทึกขึ้นระบบทันที (ภาพชัด 100%) ♡';
+      }
+    }
+
+    function listenReviewsAdmin() {
+      db.collection(DB_REVIEWS).orderBy("createdAt", "desc").onSnapshot(snapshot => {
+        const container = document.getElementById('reviewsAdminContainer');
+        if (snapshot.empty) {
+          container.innerHTML = '<p style="text-align:center; font-size:13px; color:var(--text-muted);">ไม่มีรีวิวในระบบ</p>';
+          return;
+        }
+        let html = '';
+        snapshot.forEach(doc => {
+          const r = doc.data();
+          html += `
+            <div style="background:#fff; border:1px solid var(--card-border); border-radius:16px; padding:12px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div style="font-weight:700; font-size:13.5px;">${r.name} (${'⭐️'.repeat(r.stars || 5)})</div>
+                <div style="font-size:12.5px; color:#595049;">${r.feedback}</div>
+              </div>
+              <button onclick="deleteReview('${doc.id}')" style="background:#faf8f5; border:1px solid var(--card-border); color:#ef4444; padding:4px 10px; border-radius:12px; font-size:11px; cursor:pointer;">ลบ 🗑️</button>
+            </div>
+          `;
+        });
+        container.innerHTML = html;
+      });
+    }
+
+    async function deleteReview(docId) {
+      if (confirm('ต้องการลบรีวิวนี้ใช่หรือไม่คะ? 🗑️')) {
+        await db.collection(DB_REVIEWS).doc(docId).delete();
+      }
+    }
+  </script>
+</body>
+</html>
