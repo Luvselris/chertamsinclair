@@ -22,7 +22,7 @@
       --text-dark: #3e3835;
       --text-muted: #827871;
       --accent-warm: #685d56;
-      --star-theme: #6e6259; /* สีดาวคุมโทนเดียวกับเว็บ */
+      --star-theme: #6e6259; /* สีดาวโทนเดียวกับเว็บ */
       --shadow-soft: 0 10px 30px rgba(62, 56, 53, 0.05);
     }
 
@@ -170,25 +170,14 @@
       letter-spacing: 0.3px;
     }
 
-    /* กล่องข้อความหัวข้อรีวิวแบบเรียงตรงเป๊ะ */
+    /* หัวข้อรีวิว: วางข้อความดิบของคุณเป๊ะๆ ไม่ตัดทอน */
     .section-title-review {
       text-align: center;
       margin-bottom: 18px;
-      line-height: 1.6;
-    }
-    .review-art-line1 {
-      font-size: 13.5px;
-      color: #6e6259;
-      display: block;
-      margin-bottom: 4px;
-      letter-spacing: 0.5px;
-    }
-    .review-art-line2 {
-      font-size: 14px;
-      font-weight: 700;
+      font-size: 13px;
       color: var(--text-dark);
-      display: block;
-      letter-spacing: 0.5px;
+      line-height: 1.7;
+      word-break: break-word;
     }
 
     /* Highlights Horizontal */
@@ -498,10 +487,10 @@
 
     <!-- ส่วนรีวิว -->
     <div class="section-card">
-      <!-- ข้อความหัวข้อรีวิวตามที่คุณกำหนดเป๊ะ 100% เรียงบรรทัดตรงตามภาพ -->
+      <!-- ข้อความหัวข้อรีวิวแบบเป๊ะตามที่คุณส่งมา 100% -->
       <div class="section-title-review">
-        <span class="review-art-line1">𓈒.. ུ݄  .𖤝֯.   ꙳̣̥֯𓍼༷ͦ♡֯𓍼ͦ꙳̣̥   .𖤝.֯ ུ  ݄.. ˳</span>
-        <span class="review-art-line2">⠀⠀ ཾ:݂݂݁ ׅ  รีวิวจากการดูดวง⠀ ⠀˳⠀ ཾ:݂݂݁ ׅ  ⠀ ˳</span>
+        <div>𓈒.. ུ݄  .𖤝֯.   ꙳̣̥֯𓍼༷ͦ♡֯𓍼ͦ꙳̣̥   .𖤝.֯ ུ  ݄.. ˳⠀⠀ ཾ:݂݂݁ ׅ</div>
+        <div style="font-weight:700; margin-top:2px;">รีวิวจากการดูดวง⠀ ⠀˳⠀ ཾ:݂݂݁ ׅ  ⠀ ˳</div>
       </div>
       
       <!-- รายการรีวิว -->
@@ -511,7 +500,7 @@
 
       <hr class="review-divider">
 
-      <!-- กล่องฟอร์มเขียนรีวิวด้านล่าง (ดาวคุมโทนสีเดียวกับเว็บ) -->
+      <!-- กล่องฟอร์มเขียนรีวิวด้านล่าง (ดาวสีโทนเดียวกับเว็บ) -->
       <div class="review-form-inline">
         <div class="star-rating-row">
           <button type="button" class="star-btn active" onclick="setStars(1)">★</button>
