@@ -17,14 +17,14 @@
     :root {
       /* โทนขาว ครีม อบอุ่น เกือบเทา มู้ดคลีนๆ */
       --bg-warm: #f7f5f2;
-      --card-white: rgba(255, 255, 255, 0.95);
+      --card-white: rgba(255, 255, 255, 0.96);
       --card-border: #e8e3dc;
       --text-dark: #3e3835;
       --text-muted: #827871;
       --accent-warm: #685d56;
       --accent-soft: #ede9e3;
-      --star-gold: #cfa862;
-      --shadow-soft: 0 10px 30px rgba(62, 56, 53, 0.06);
+      --star-gold: #f59e0b;
+      --shadow-soft: 0 10px 30px rgba(62, 56, 53, 0.05);
     }
 
     * {
@@ -56,13 +56,13 @@
       bottom: -60px;
       font-size: 20px;
       animation: floatUp 12s linear infinite;
-      opacity: 0.65;
-      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.06));
+      opacity: 0.6;
+      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.05));
     }
     @keyframes floatUp {
       0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-      15% { opacity: 0.65; }
-      85% { opacity: 0.65; }
+      15% { opacity: 0.6; }
+      85% { opacity: 0.6; }
       100% { transform: translateY(-115vh) rotate(360deg); opacity: 0; }
     }
 
@@ -74,7 +74,7 @@
       z-index: 2;
     }
 
-    /* ปุ่มเปิด-ปิดเพลงแบบมินิมอล */
+    /* ปุ่มเพลง */
     .music-btn-top {
       position: absolute;
       top: 14px;
@@ -163,34 +163,33 @@
 
     .section-title-highlight {
       font-size: 14.5px;
-      font-weight: 600;
-      color: var(--accent-warm);
+      font-weight: 700;
+      color: var(--text-dark);
       margin-bottom: 14px;
       text-align: center;
       letter-spacing: 0.3px;
     }
 
-    /* ข้อความหัวข้อรีวิวตามรูปเป๊ะๆ */
+    /* หัวข้อรีวิวตามข้อความที่ส่งมาเป๊ะ 100% */
     .section-title-review {
       text-align: center;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
       line-height: 1.5;
     }
     .review-art-decor {
-      font-size: 14px;
-      letter-spacing: 1px;
-      color: var(--accent-warm);
+      font-size: 13px;
+      color: var(--text-dark);
       display: block;
-      margin-bottom: 2px;
+      margin-bottom: 3px;
+      letter-spacing: 0.3px;
     }
     .review-art-text {
       font-size: 14.5px;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--text-dark);
-      letter-spacing: 0.5px;
     }
 
-    /* Stories Highlights Horizontal */
+    /* Highlights Horizontal */
     .highlights-container {
       display: flex;
       justify-content: flex-start;
@@ -242,12 +241,12 @@
       text-overflow: ellipsis;
     }
 
-    /* Reviews List */
+    /* Reviews List แบบในรูปภาพ */
     .reviews-list {
       display: flex;
       flex-direction: column;
       gap: 12px;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
       max-height: 480px;
       overflow-y: auto;
       padding-right: 2px;
@@ -256,9 +255,9 @@
     .review-bubble {
       background: #ffffff;
       border-radius: 20px;
-      padding: 15px 16px;
-      border: 1px solid var(--card-border);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+      padding: 16px 18px;
+      border: 1px solid #f0eae1;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
     }
 
     .review-header {
@@ -273,47 +272,99 @@
       color: var(--text-dark);
     }
 
-    .review-category {
-      font-size: 12px;
-      color: var(--text-muted);
-      font-weight: 500;
-      margin-top: 2px;
-    }
-
     .review-stars {
-      font-size: 12px;
+      font-size: 13px;
       letter-spacing: 2px;
       color: var(--star-gold);
     }
 
     .review-desc {
-      font-size: 13px;
+      font-size: 13.5px;
       color: #4a4440;
       margin-top: 8px;
       line-height: 1.55;
       white-space: pre-line;
     }
 
-    .review-attached-img {
-      margin-top: 10px;
-      max-width: 140px;
-      max-height: 140px;
-      border-radius: 14px;
-      border: 1px solid var(--card-border);
-      object-fit: cover;
-      display: block;
-      cursor: pointer;
-    }
-
     .review-time {
-      font-size: 11px;
+      font-size: 11.5px;
       color: #a49a92;
       margin-top: 6px;
       text-align: right;
       font-weight: 500;
     }
 
-    .open-review-modal-btn {
+    /* เส้นประคั่น */
+    .review-divider {
+      border: none;
+      border-top: 1.5px dashed #f0eae1;
+      margin: 16px 0 20px;
+    }
+
+    /* ฟอร์มเขียนรีวิวด้านล่างการ์ด (เหมือนในรูปภาพ) */
+    .review-form-inline {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .star-rating-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .star-btn {
+      background: none;
+      border: none;
+      font-size: 30px;
+      cursor: pointer;
+      color: #ded7ce;
+      transition: transform 0.15s, color 0.15s;
+    }
+    .star-btn.active {
+      color: #f59e0b;
+      transform: scale(1.1);
+    }
+
+    .input-field-review {
+      width: 100%;
+      background: #faf8f5;
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 12px 18px;
+      font-size: 13px;
+      color: var(--text-dark);
+      outline: none;
+    }
+    .input-field-review::placeholder {
+      color: #a49a92;
+    }
+    .input-field-review:focus {
+      border-color: var(--accent-warm);
+    }
+
+    .textarea-field-review {
+      width: 100%;
+      background: #faf8f5;
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 14px 18px;
+      font-size: 13px;
+      color: var(--text-dark);
+      outline: none;
+      min-height: 80px;
+      resize: vertical;
+    }
+    .textarea-field-review::placeholder {
+      color: #a49a92;
+    }
+    .textarea-field-review:focus {
+      border-color: var(--accent-warm);
+    }
+
+    .btn-submit-review {
       width: 100%;
       background: linear-gradient(135deg, #7a6e65, #5a4f47);
       color: #ffffff;
@@ -321,133 +372,18 @@
       padding: 13px;
       border-radius: 22px;
       font-size: 14.5px;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 4px 14px rgba(90, 79, 71, 0.25);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    .open-review-modal-btn:active { transform: scale(0.98); }
-
-    /* Modal Form Review */
-    .review-modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.45);
-      backdrop-filter: blur(5px);
-      z-index: 999999;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-    }
-    .review-modal-overlay.active { display: flex; }
-
-    .review-modal-card {
-      background: #ffffff;
-      border-radius: 30px;
-      width: 100%;
-      max-width: 420px;
-      padding: 24px 20px 22px;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
-      border: 1px solid var(--card-border);
-      position: relative;
-    }
-
-    .modal-head-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 18px;
-    }
-    .modal-head-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text-dark);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .modal-close-icon {
-      background: #f5f2ed;
-      border: 1px solid var(--card-border);
-      color: var(--text-dark);
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .custom-input, .custom-textarea {
-      width: 100%;
-      background: #faf8f5;
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 12px 16px;
-      font-size: 13.5px;
-      color: var(--text-dark);
-      outline: none;
-      margin-bottom: 12px;
-    }
-    .custom-textarea { min-height: 90px; resize: none; border-radius: 18px; }
-    .custom-input:focus, .custom-textarea:focus { border-color: var(--accent-warm); }
-
-    .score-row {
-      background: #faf8f5;
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 10px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 12px;
-    }
-    .score-label { font-size: 13px; font-weight: 600; color: var(--text-dark); }
-    .score-stars-box { display: flex; gap: 6px; }
-    .star-click {
-      background: none; border: none; font-size: 22px; color: #dcd6ce; cursor: pointer;
-    }
-    .star-click.active { color: var(--star-gold); transform: scale(1.15); }
-
-    .upload-attach-box {
-      background: #faf8f5;
-      border: 1px solid var(--card-border);
-      border-radius: 18px;
-      padding: 12px 16px;
-      margin-bottom: 18px;
-    }
-    .upload-attach-title {
-      font-size: 12.5px;
-      font-weight: 600;
-      color: var(--text-dark);
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .send-modal-btn {
-      width: 100%;
-      background: linear-gradient(135deg, #7a6e65, #5a4f47);
-      color: #ffffff;
-      border: none;
-      border-radius: 20px;
-      padding: 13px;
-      font-size: 15px;
       font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 4px 14px rgba(90, 79, 71, 0.25);
+      box-shadow: 0 4px 14px rgba(90, 79, 71, 0.22);
+      margin-top: 4px;
+    }
+    .btn-submit-review:active {
+      transform: scale(0.98);
     }
 
     .footer-note {
       text-align: center;
-      font-size: 12.5px;
+      font-size: 12px;
       color: var(--text-muted);
       margin-top: 10px;
       line-height: 1.6;
@@ -563,69 +499,49 @@
 สามารถกดดูไฮไลท์ตัวอย่างและรีวิวได้เลยนะคะ ขอบคุณที่แวะมาอุดหนุนค่ะ</p>
     </div>
 
-    <!-- ไฮไลท์ไม่จำกัดจำนวน ภาพคมชัดระดับ Full HD -->
+    <!-- ไฮไลท์ไม่จำกัดจำนวน ภาพคมชัด Full HD -->
     <div class="section-card">
       <div class="section-title-highlight">ขอบคุณสำหรับรีวิว และ การอุดหนุนนะคะ ✿</div>
       <div class="highlights-container" id="highlightsList"></div>
     </div>
 
-    <!-- รีวิว -->
+    <!-- ส่วนรีวิว -->
     <div class="section-card">
-      <!-- ข้อความรีวิวตามรูปเป๊ะๆ -->
+      <!-- ข้อความรีวิวตามที่คุณส่งมาเป๊ะ 100% -->
       <div class="section-title-review">
-        <span class="review-art-decor">˙✧˖° 𖥻 ֹ ꙳ ִ 𓍼 ♡ 𓍼 ꙳ ֹ 𖥻 ˳ ˚</span>
-        <span class="review-art-text">รีวิวจากการดูดวง</span>
+        <span class="review-art-decor">𓈒.. ུ݄  .𖤝֯.   ꙳̣̥֯𓍼༷ͦ♡֯𓍼ͦ꙳̣̥   .𖤝.֯ ུ  ݄.. ˳⠀⠀ ཾ:݂݂݁ ׅ</span>
+        <span class="review-art-text">รีวิวจากการดูดวง⠀ ⠀˳⠀ ཾ:݂݂݁ ׅ  ⠀ ˳</span>
       </div>
       
+      <!-- รายการรีวิวที่ลูกค้าเขียน -->
       <div class="reviews-list" id="reviewsContainer">
         <p style="text-align:center; color:var(--text-muted); font-size:13px;">กำลังโหลดรีวิว...</p>
       </div>
 
-      <button type="button" class="open-review-modal-btn" onclick="openReviewModal()">
-        ✎ เขียนรีวิวความประทับใจ
-      </button>
+      <hr class="review-divider">
+
+      <!-- กล่องฟอร์มเขียนรีวิวด้านล่างเหมือนในภาพเป๊ะ -->
+      <div class="review-form-inline">
+        <div class="star-rating-row">
+          <button type="button" class="star-btn active" onclick="setStars(1)">★</button>
+          <button type="button" class="star-btn active" onclick="setStars(2)">★</button>
+          <button type="button" class="star-btn active" onclick="setStars(3)">★</button>
+          <button type="button" class="star-btn active" onclick="setStars(4)">★</button>
+          <button type="button" class="star-btn active" onclick="setStars(5)">★</button>
+        </div>
+
+        <input type="text" id="inlineCustName" class="input-field-review" placeholder="สามารถกรอกชื่อตัวเองได้เลยนะคะ">
+        
+        <textarea id="inlineCustComment" class="textarea-field-review" placeholder="รีวิวร้านเค้าได้ตามความรู้สึกเลยนะคะ ♡"></textarea>
+
+        <button type="button" class="btn-submit-review" id="inlineSubmitBtn" onclick="submitInlineReview()">
+          ส่งรีวิว ♡
+        </button>
+      </div>
     </div>
 
-    <div class="footer-note">Thank you for your support CHERTAMSINCLAIR ♡</div>
+    <div class="footer-note">thank u for supporting CHERTAMSINCLAIR ♡</div>
 
-  </div>
-
-  <!-- Modal ฟอร์มเขียนรีวิว -->
-  <div class="review-modal-overlay" id="reviewModal" onclick="closeReviewModal(event)">
-    <div class="review-modal-card" onclick="event.stopPropagation()">
-      <div class="modal-head-row">
-        <div class="modal-head-title">
-          <span>✎</span> เขียนรีวิวความประทับใจ
-        </div>
-        <button type="button" class="modal-close-icon" onclick="toggleReviewModal(false)">✕</button>
-      </div>
-
-      <input type="text" id="custName" class="custom-input" placeholder="ชื่อของลูกค้า">
-      <input type="text" id="custCategory" class="custom-input" placeholder="ประเภทสินค้า / แพ็กเกจที่ดูดวง">
-      <textarea id="custComment" class="custom-textarea" placeholder="เขียนข้อความรีวิวหรือความประทับใจ..."></textarea>
-
-      <div class="score-row">
-        <span class="score-label">ให้คะแนน:</span>
-        <div class="score-stars-box">
-          <button type="button" class="star-click active" onclick="setStars(1)">★</button>
-          <button type="button" class="star-click active" onclick="setStars(2)">★</button>
-          <button type="button" class="star-click active" onclick="setStars(3)">★</button>
-          <button type="button" class="star-click active" onclick="setStars(4)">★</button>
-          <button type="button" class="star-click active" onclick="setStars(5)">★</button>
-        </div>
-      </div>
-
-      <div class="upload-attach-box">
-        <div class="upload-attach-title">
-          <span>🖼</span> แนบรูปภาพประกอบรีวิว (ถ้ามี)
-        </div>
-        <input type="file" id="custPhoto" accept="image/*" style="font-size:12px; color:var(--text-muted); width:100%;">
-      </div>
-
-      <button type="button" class="send-modal-btn" id="submitReviewBtn" onclick="submitReviewFromModal()">
-        <span>✈</span> ส่งรีวิว
-      </button>
-    </div>
   </div>
 
   <!-- Story Modal -->
@@ -643,7 +559,6 @@
   </div>
 
   <script>
-    // แยกฐานข้อมูลเฉพาะของ CHERTAMSINCLAIR
     const DB_SITE = "chertam_site_data";
     const DB_HL = "chertam_site_highlights";
     const DB_REVIEWS = "chertam_site_reviews";
@@ -830,63 +745,24 @@
     bindTap(document.getElementById('storyTapRight'), nextStorySlide);
     bindTap(document.getElementById('storyTapLeft'), prevStorySlide);
 
-    // Reviews System
+    // ระบบคะแนนดาวในฟอร์ม
     let currentRating = 5;
     function setStars(star) {
       currentRating = star;
-      document.querySelectorAll('.star-click').forEach((btn, idx) => {
+      document.querySelectorAll('.star-btn').forEach((btn, idx) => {
         if (idx < star) btn.classList.add('active');
         else btn.classList.remove('active');
       });
     }
 
-    function toggleReviewModal(show) {
-      const modal = document.getElementById('reviewModal');
-      if (show) modal.classList.add('active');
-      else modal.classList.remove('active');
-    }
-
-    function openReviewModal() { toggleReviewModal(true); }
-
-    function closeReviewModal(e) {
-      if (e.target === document.getElementById('reviewModal')) {
-        toggleReviewModal(false);
-      }
-    }
-
-    function compressUserPhoto(file) {
-      return new Promise(resolve => {
-        const reader = new FileReader();
-        reader.onload = e => {
-          const img = new Image();
-          img.onload = () => {
-            const canvas = document.createElement('canvas');
-            let w = img.width, h = img.height;
-            if (w > 600) {
-              h = Math.round((h * 600) / w);
-              w = 600;
-            }
-            canvas.width = w;
-            canvas.height = h;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, w, h);
-            resolve(canvas.toDataURL('image/jpeg', 0.72));
-          };
-          img.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-      });
-    }
-
-    async function submitReviewFromModal() {
-      const name = document.getElementById('custName').value.trim();
-      const category = document.getElementById('custCategory').value.trim();
-      const comment = document.getElementById('custComment').value.trim();
-      const photoFile = document.getElementById('custPhoto').files[0];
-      const btn = document.getElementById('submitReviewBtn');
+    // ฟังก์ชันส่งรีวิวด้านล่างการ์ด
+    async function submitInlineReview() {
+      const name = document.getElementById('inlineCustName').value.trim();
+      const comment = document.getElementById('inlineCustComment').value.trim();
+      const btn = document.getElementById('inlineSubmitBtn');
 
       if (!name || !comment) {
-        alert('กรุณากรอกชื่อและข้อความรีวิวก่อนส่งนะคะ ♡');
+        alert('กรุณากรอกชื่อและข้อความรีวิวก่อนกดส่งนะคะ ♡');
         return;
       }
 
@@ -894,73 +770,59 @@
       btn.textContent = 'กำลังส่งรีวิว... ⏳';
 
       try {
-        let attachedImgBase64 = "";
-        if (photoFile) {
-          attachedImgBase64 = await compressUserPhoto(photoFile);
-        }
-
         const now = new Date();
-        const dayMonthYear = now.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' });
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        const fullDateTimeStr = `${dayMonthYear}, ${hours}:${minutes} น.`;
+        const shortDate = now.toLocaleDateString('th-TH', { day: 'numeric', month: 'short' });
 
         await db.collection(DB_REVIEWS).add({
           name: name,
-          category: category || "",
           feedback: comment,
-          photo: attachedImgBase64,
           stars: currentRating,
-          dateStr: fullDateTimeStr,
+          dateStr: shortDate,
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
 
-        document.getElementById('custName').value = '';
-        document.getElementById('custCategory').value = '';
-        document.getElementById('custComment').value = '';
-        document.getElementById('custPhoto').value = '';
+        document.getElementById('inlineCustName').value = '';
+        document.getElementById('inlineCustComment').value = '';
         setStars(5);
-        toggleReviewModal(false);
-        alert('ขอบคุณสำหรับรีวิวนะคะ ♡');
+        alert('ส่งรีวิวเรียบร้อยแล้ว ขอบคุณมาก ๆ นะคะ ♡');
       } catch (err) {
-        alert('ส่งรีวิวไม่สำเร็จ ลองใหม่อีกครั้งนะคะ');
+        alert('ส่งรีวิวไม่สำเร็จ ลองใหม่อีกครั้งนะคะ: ' + err.message);
       } finally {
         btn.disabled = false;
-        btn.innerHTML = '<span>✈</span> ส่งรีวิว';
+        btn.textContent = 'ส่งรีวิว ♡';
       }
     }
 
+    // แสดงรายการรีวิว (เหมือนในรูปเป๊ะ)
     db.collection(DB_REVIEWS).orderBy("createdAt", "desc").onSnapshot(snapshot => {
       const container = document.getElementById('reviewsContainer');
       if (snapshot.empty) {
-        container.innerHTML = '<p style="text-align:center; color:var(--text-muted); font-size:13px;">ยังไม่มีรีวิว มารีวิวเป็นคนแรกได้เลยนะคะ 🤍</p>';
+        container.innerHTML = '<p style="text-align:center; color:var(--text-muted); font-size:13px; padding:10px;">ยังไม่มีรีวิว มารีวิวเป็นคนแรกได้เลยนะคะ 🤍</p>';
         return;
       }
       let html = '';
       snapshot.forEach(doc => {
         const data = doc.data();
-        let catHtml = data.category ? `<div class="review-category">🏷️ ${data.category}</div>` : '';
-        let photoHtml = data.photo ? `<img src="${data.photo}" class="review-attached-img" alt="Attached Photo" onclick="window.open(this.src)">` : '';
-
         html += `
           <div class="review-bubble">
             <div class="review-header">
-              <div>
-                <span class="review-name">${data.name}</span>
-                ${catHtml}
-              </div>
-              <span class="review-stars">${'⭐️'.repeat(data.stars || 5)}</span>
+              <span class="review-name">${escapeHtml(data.name)}</span>
+              <span class="review-stars">${'★'.repeat(data.stars || 5)}</span>
             </div>
-            <div class="review-desc">${data.feedback}</div>
-            ${photoHtml}
-            <div class="review-time">${data.dateStr || 'เมื่อเร็วๆ นี้'}</div>
+            <div class="review-desc">${escapeHtml(data.feedback)}</div>
+            <div class="review-time">${data.dateStr || ''}</div>
           </div>
         `;
       });
       container.innerHTML = html;
     });
 
-    // ไอคอนลอยสไตล์อบอุ่น มินิมอล
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    // ไอคอนลอย
     const icons = ['🕯️', '🕊️', '✨', '🪐', '🌙'];
     const layer = document.getElementById('emojiLayer');
     setInterval(() => {
