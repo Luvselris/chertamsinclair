@@ -42,30 +42,6 @@
       position: relative;
     }
 
-    /* Floating Layer แสดงเฉพาะ ♡ สีคุมโทน */
-    .floating-layer {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 1;
-      overflow: hidden;
-    }
-    .float-item {
-      position: absolute;
-      bottom: -60px;
-      font-size: 20px;
-      color: #8a7e75;
-      animation: floatUp 12s linear infinite;
-      opacity: 0.55;
-      filter: drop-shadow(0 2px 5px rgba(62, 56, 53, 0.1));
-    }
-    @keyframes floatUp {
-      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-      15% { opacity: 0.55; }
-      85% { opacity: 0.55; }
-      100% { transform: translateY(-115vh) rotate(360deg); opacity: 0; }
-    }
-
     .container {
       max-width: 460px;
       margin: 0 auto;
@@ -148,6 +124,7 @@
       line-height: 1.65;
       white-space: pre-line;
       padding: 0 8px;
+      display: none; /* ซ่อนไว้ก่อน ถ้าแอดมินมีข้อความถึงจะแสดง */
     }
 
     /* Section Cards */
@@ -170,7 +147,7 @@
       letter-spacing: 0.3px;
     }
 
-    /* หัวข้อรีวิว: ดึงสัญลักษณ์ฝั่งขวาติดกับคำว่า รีวิวจากการดูดวง */
+    /* หัวข้อรีวิว */
     .section-title-review {
       text-align: center;
       margin-bottom: 18px;
@@ -460,8 +437,6 @@
 </head>
 <body>
 
-  <div class="floating-layer" id="emojiLayer"></div>
-
   <!-- เพลงวนลูปอัตโนมัติ -->
   <audio id="bgMusic" loop autoplay preload="auto" playsinline src="https://file.garden/asG8Gt-rqWIpi3II/ssstik.io_1792501377002.mp3"></audio>
 
@@ -474,8 +449,7 @@
       <img id="mainBanner" class="banner-box" src="" alt="Banner">
       <img id="mainProfile" class="profile-wrap" src="" alt="Profile">
       <h1 class="store-name" id="mainStoreName">CHERTAMSINCLAIR ♡</h1>
-      <p class="store-bio" id="mainStoreBio">ยินดีต้อนรับเข้าสู่ร้าน CHERTAMSINCLAIR ♡
-สามารถกดดูไฮไลท์ตัวอย่างและรีวิวได้เลยนะคะ ขอบคุณที่แวะมาอุดหนุนค่ะ</p>
+      <p class="store-bio" id="mainStoreBio"></p>
     </div>
 
     <!-- ไฮไลท์ไม่จำกัดจำนวน ภาพคมชัด Full HD -->
@@ -486,7 +460,7 @@
 
     <!-- ส่วนรีวิว -->
     <div class="section-card">
-      <!-- ข้อความหัวข้อรีวิว: วงแดงติดชิดคำว่า รีวิวจากการดูดวง ทันที -->
+      <!-- ข้อความหัวข้อรีวิว: ดึงสัญลักษณ์ติดชิดคำว่า รีวิวจากการดูดวง -->
       <div class="section-title-review">
         <div>𓈒.. ུ݄  .𖤝֯.   ꙳̣̥֯𓍼༷ͦ♡֯𓍼ͦ꙳̣̥   .𖤝.֯ ུ  ݄.. ˳</div>
         <div style="font-weight:700; margin-top:2px;">˙⁝ . รีวิวจากการดูดวง. ⁝˙ ˳ ཾ:݂݂݁ ׅ</div>
@@ -499,7 +473,7 @@
 
       <hr class="review-divider">
 
-      <!-- กล่องฟอร์มเขียนรีวิวด้านล่าง (ดาวสีโทนเดียวกับเว็บ) -->
+      <!-- กล่องฟอร์มเขียนรีวิวด้านล่าง (ปรับ Placeholder เป็น NAME และ REVIEW) -->
       <div class="review-form-inline">
         <div class="star-rating-row">
           <button type="button" class="star-btn active" onclick="setStars(1)">★</button>
@@ -509,9 +483,9 @@
           <button type="button" class="star-btn active" onclick="setStars(5)">★</button>
         </div>
 
-        <input type="text" id="inlineCustName" class="input-field-review" placeholder="สามารถกรอกชื่อตัวเองได้เลยนะคะ">
+        <input type="text" id="inlineCustName" class="input-field-review" placeholder="NAME">
         
-        <textarea id="inlineCustComment" class="textarea-field-review" placeholder="รีวิวร้านเค้าได้ตามความรู้สึกเลยนะคะ ♡"></textarea>
+        <textarea id="inlineCustComment" class="textarea-field-review" placeholder="REVIEW"></textarea>
 
         <button type="button" class="btn-submit-review" id="inlineSubmitBtn" onclick="submitInlineReview()">
           ส่งรีวิว ♡
@@ -584,7 +558,16 @@
       if (d.banner) document.getElementById('mainBanner').src = d.banner;
       if (d.profile) document.getElementById('mainProfile').src = d.profile;
       if (d.storeName) document.getElementById('mainStoreName').textContent = d.storeName;
-      if (d.storeBio) document.getElementById('mainStoreBio').textContent = d.storeBio;
+      
+      const bioEl = document.getElementById('mainStoreBio');
+      if (d.storeBio && d.storeBio.trim() !== '') {
+        bioEl.textContent = d.storeBio;
+        bioEl.style.display = 'block';
+      } else {
+        bioEl.textContent = '';
+        bioEl.style.display = 'none';
+      }
+
       if (d.musicUrl && music.src !== d.musicUrl) {
         music.src = d.musicUrl;
         startMusic();
@@ -795,18 +778,6 @@
       if (!text) return '';
       return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
-
-    // มีเฉพาะไอคอน ♡ อันเดียว ลอยขึ้นด้านบน คุมโทนสีเว็บ
-    const layer = document.getElementById('emojiLayer');
-    setInterval(() => {
-      const el = document.createElement('div');
-      el.className = 'float-item';
-      el.textContent = '♡';
-      el.style.left = Math.random() * 92 + 'vw';
-      el.style.animationDuration = (8 + Math.random() * 5) + 's';
-      layer.appendChild(el);
-      setTimeout(() => el.remove(), 14000);
-    }, 1200);
   </script>
 </body>
 </html>
