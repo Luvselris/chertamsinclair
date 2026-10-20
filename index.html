@@ -22,7 +22,7 @@
       --text-dark: #3e3835;
       --text-muted: #827871;
       --accent-warm: #685d56;
-      --star-theme: #6e6259; /* สีดาวโทนเดียวกับเว็บ */
+      --star-theme: #6e6259;
       --shadow-soft: 0 10px 30px rgba(62, 56, 53, 0.05);
     }
 
@@ -170,14 +170,13 @@
       letter-spacing: 0.3px;
     }
 
-    /* หัวข้อรีวิว: วางข้อความดิบของคุณเป๊ะๆ ไม่ตัดทอน */
+    /* หัวข้อรีวิว: ดึงสัญลักษณ์ฝั่งขวาติดกับคำว่า รีวิวจากการดูดวง */
     .section-title-review {
       text-align: center;
       margin-bottom: 18px;
       font-size: 13px;
       color: var(--text-dark);
-      line-height: 1.7;
-      word-break: break-word;
+      line-height: 1.6;
     }
 
     /* Highlights Horizontal */
@@ -487,10 +486,10 @@
 
     <!-- ส่วนรีวิว -->
     <div class="section-card">
-      <!-- ข้อความหัวข้อรีวิวแบบเป๊ะตามที่คุณส่งมา 100% -->
+      <!-- ข้อความหัวข้อรีวิว: วงแดงติดชิดคำว่า รีวิวจากการดูดวง ทันที -->
       <div class="section-title-review">
-        <div>𓈒.. ུ݄  .𖤝֯.   ꙳̣̥֯𓍼༷ͦ♡֯𓍼ͦ꙳̣̥   .𖤝.֯ ུ  ݄.. ˳⠀⠀ ཾ:݂݂݁ ׅ</div>
-        <div style="font-weight:700; margin-top:2px;">รีวิวจากการดูดวง⠀ ⠀˳⠀ ཾ:݂݂݁ ׅ  ⠀ ˳</div>
+        <div>𓈒.. ུ݄  .𖤝֯.   ꙳̣̥֯𓍼༷ͦ♡֯𓍼ͦ꙳̣̥   .𖤝.֯ ུ  ݄.. ˳</div>
+        <div style="font-weight:700; margin-top:2px;">˙⁝ . รีวิวจากการดูดวง. ⁝˙ ˳ ཾ:݂݂݁ ׅ</div>
       </div>
       
       <!-- รายการรีวิว -->
