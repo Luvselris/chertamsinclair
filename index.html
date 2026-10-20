@@ -43,7 +43,7 @@
       position: relative;
     }
 
-    /* Floating Layer คลีนๆ อบอุ่น */
+    /* Floating Layer แสดงเฉพาะ ♡ สีคุมโทน */
     .floating-layer {
       position: fixed;
       inset: 0;
@@ -55,14 +55,15 @@
       position: absolute;
       bottom: -60px;
       font-size: 20px;
+      color: #8a7e75;
       animation: floatUp 12s linear infinite;
-      opacity: 0.6;
-      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.05));
+      opacity: 0.55;
+      filter: drop-shadow(0 2px 5px rgba(62, 56, 53, 0.1));
     }
     @keyframes floatUp {
       0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-      15% { opacity: 0.6; }
-      85% { opacity: 0.6; }
+      15% { opacity: 0.55; }
+      85% { opacity: 0.55; }
       100% { transform: translateY(-115vh) rotate(360deg); opacity: 0; }
     }
 
@@ -170,23 +171,28 @@
       letter-spacing: 0.3px;
     }
 
-    /* หัวข้อรีวิวตามข้อความที่ส่งมาเป๊ะ 100% */
+    /* กล่องข้อความหัวข้อรีวิวตามภาพเป๊ะๆ ไม่ตกหล่น */
     .section-title-review {
       text-align: center;
       margin-bottom: 18px;
-      line-height: 1.5;
+      line-height: 1.6;
     }
     .review-art-decor {
-      font-size: 13px;
-      color: var(--text-dark);
+      font-size: 13.5px;
+      color: #685d56;
       display: block;
-      margin-bottom: 3px;
-      letter-spacing: 0.3px;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow-x: auto;
+      scrollbar-width: none;
     }
+    .review-art-decor::-webkit-scrollbar { display: none; }
     .review-art-text {
       font-size: 14.5px;
       font-weight: 700;
       color: var(--text-dark);
+      letter-spacing: 0.5px;
+      white-space: nowrap;
     }
 
     /* Highlights Horizontal */
@@ -241,7 +247,7 @@
       text-overflow: ellipsis;
     }
 
-    /* Reviews List แบบในรูปภาพ */
+    /* Reviews List */
     .reviews-list {
       display: flex;
       flex-direction: column;
@@ -294,14 +300,13 @@
       font-weight: 500;
     }
 
-    /* เส้นประคั่น */
     .review-divider {
       border: none;
       border-top: 1.5px dashed #f0eae1;
       margin: 16px 0 20px;
     }
 
-    /* ฟอร์มเขียนรีวิวด้านล่างการ์ด (เหมือนในรูปภาพ) */
+    /* ฟอร์มเขียนรีวิวด้านล่างการ์ด */
     .review-form-inline {
       display: flex;
       flex-direction: column;
@@ -338,12 +343,8 @@
       color: var(--text-dark);
       outline: none;
     }
-    .input-field-review::placeholder {
-      color: #a49a92;
-    }
-    .input-field-review:focus {
-      border-color: var(--accent-warm);
-    }
+    .input-field-review::placeholder { color: #a49a92; }
+    .input-field-review:focus { border-color: var(--accent-warm); }
 
     .textarea-field-review {
       width: 100%;
@@ -357,12 +358,8 @@
       min-height: 80px;
       resize: vertical;
     }
-    .textarea-field-review::placeholder {
-      color: #a49a92;
-    }
-    .textarea-field-review:focus {
-      border-color: var(--accent-warm);
-    }
+    .textarea-field-review::placeholder { color: #a49a92; }
+    .textarea-field-review:focus { border-color: var(--accent-warm); }
 
     .btn-submit-review {
       width: 100%;
@@ -377,9 +374,7 @@
       box-shadow: 0 4px 14px rgba(90, 79, 71, 0.22);
       margin-top: 4px;
     }
-    .btn-submit-review:active {
-      transform: scale(0.98);
-    }
+    .btn-submit-review:active { transform: scale(0.98); }
 
     .footer-note {
       text-align: center;
@@ -507,20 +502,20 @@
 
     <!-- ส่วนรีวิว -->
     <div class="section-card">
-      <!-- ข้อความรีวิวตามที่คุณส่งมาเป๊ะ 100% -->
+      <!-- ข้อความหัวข้อรีวิวแบบเป๊ะตามรูป -->
       <div class="section-title-review">
-        <span class="review-art-decor">𓈒.. ུ݄  .𖤝֯.   ꙳̣̥֯𓍼༷ͦ♡֯𓍼ͦ꙳̣̥   .𖤝.֯ ུ  ݄.. ˳⠀⠀ ཾ:݂݂݁ ׅ</span>
-        <span class="review-art-text">รีวิวจากการดูดวง⠀ ⠀˳⠀ ཾ:݂݂݁ ׅ  ⠀ ˳</span>
+        <span class="review-art-decor">˙✧˖° 𖥻 ֹ ꙳ ִ 𓍼 ♡ 𓍼 ꙳ ֹ 𖥻 ˳ ˚</span>
+        <span class="review-art-text">รีวิวจากการดูดวง</span>
       </div>
       
-      <!-- รายการรีวิวที่ลูกค้าเขียน -->
+      <!-- รายการรีวิว -->
       <div class="reviews-list" id="reviewsContainer">
         <p style="text-align:center; color:var(--text-muted); font-size:13px;">กำลังโหลดรีวิว...</p>
       </div>
 
       <hr class="review-divider">
 
-      <!-- กล่องฟอร์มเขียนรีวิวด้านล่างเหมือนในภาพเป๊ะ -->
+      <!-- กล่องฟอร์มเขียนรีวิวด้านล่าง -->
       <div class="review-form-inline">
         <div class="star-rating-row">
           <button type="button" class="star-btn active" onclick="setStars(1)">★</button>
@@ -625,7 +620,6 @@
       }
     });
 
-    // ดึงไฮไลท์แบบ Full HD แยก Slides
     db.collection(DB_HL).orderBy("order", "asc").onSnapshot(async snap => {
       highlightsData = [];
       for (const doc of snap.docs) {
@@ -661,7 +655,6 @@
       });
     }
 
-    // Story System
     let activeHlIdx = 0;
     let activeSlideIdx = 0;
     let slideTimer = null;
@@ -745,7 +738,6 @@
     bindTap(document.getElementById('storyTapRight'), nextStorySlide);
     bindTap(document.getElementById('storyTapLeft'), prevStorySlide);
 
-    // ระบบคะแนนดาวในฟอร์ม
     let currentRating = 5;
     function setStars(star) {
       currentRating = star;
@@ -755,7 +747,6 @@
       });
     }
 
-    // ฟังก์ชันส่งรีวิวด้านล่างการ์ด
     async function submitInlineReview() {
       const name = document.getElementById('inlineCustName').value.trim();
       const comment = document.getElementById('inlineCustComment').value.trim();
@@ -793,7 +784,6 @@
       }
     }
 
-    // แสดงรายการรีวิว (เหมือนในรูปเป๊ะ)
     db.collection(DB_REVIEWS).orderBy("createdAt", "desc").onSnapshot(snapshot => {
       const container = document.getElementById('reviewsContainer');
       if (snapshot.empty) {
@@ -822,18 +812,17 @@
       return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
 
-    // ไอคอนลอย
-    const icons = ['🕯️', '🕊️', '✨', '🪐', '🌙'];
+    // มีเฉพาะไอคอน ♡ อันเดียว ลอยขึ้นด้านบน คุมโทนสีเว็บ
     const layer = document.getElementById('emojiLayer');
     setInterval(() => {
       const el = document.createElement('div');
       el.className = 'float-item';
-      el.textContent = icons[Math.floor(Math.random() * icons.length)];
+      el.textContent = '♡';
       el.style.left = Math.random() * 92 + 'vw';
       el.style.animationDuration = (8 + Math.random() * 5) + 's';
       layer.appendChild(el);
       setTimeout(() => el.remove(), 14000);
-    }, 1400);
+    }, 1200);
   </script>
 </body>
 </html>
