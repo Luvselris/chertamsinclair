@@ -122,14 +122,21 @@
 
       <div class="panel-card">
         <div class="panel-title"><span>🎀 ข้อมูลร้านและรูปภาพ</span></div>
+        
+        <!-- รองรับแบนเนอร์ทั้งแบบลิงก์ GIF เคลื่อนไหว และการอัปโหลดไฟล์ -->
         <div style="margin-bottom:12px;">
-          <label style="font-size:12px; color:var(--text-muted); font-weight:600; display:block; margin-bottom:4px;">รูปแบนเนอร์:</label>
+          <label style="font-size:12px; color:var(--text-muted); font-weight:600; display:block; margin-bottom:4px;">ลิงก์ URL รูปแบนเนอร์ (รองรับ .gif ดุ๊กดิ๊ก หรือ .jpg/.png):</label>
+          <input type="url" id="bannerUrlInput" class="input-field" placeholder="https://files.catbox.moe/...gif">
+          <label style="font-size:11.5px; color:var(--text-muted); display:block; margin-top:2px;">หรืออัปโหลดไฟล์ภาพจากเครื่อง:</label>
           <input type="file" accept="image/*" onchange="uploadDirect(event, 'banner')">
         </div>
+
         <div style="margin-bottom:12px;">
-          <label style="font-size:12px; color:var(--text-muted); font-weight:600; display:block; margin-bottom:4px;">รูปโปรไฟล์:</label>
+          <label style="font-size:12px; color:var(--text-muted); font-weight:600; display:block; margin-bottom:4px;">ลิงก์ URL รูปโปรไฟล์ (หรืออัปโหลดไฟล์):</label>
+          <input type="url" id="profileUrlInput" class="input-field" placeholder="https://files.catbox.moe/...jpg">
           <input type="file" accept="image/*" onchange="uploadDirect(event, 'profile')">
         </div>
+
         <input type="text" id="storeNameInput" class="input-field" placeholder="CHERTAMSINCLAIR ♡">
         <textarea id="storeBioInput" class="textarea-field" rows="3" placeholder="ข้อความแนะนำร้าน..."></textarea>
         <input type="url" id="musicUrlInput" class="input-field" placeholder="ลิงก์ไฟล์เสียง .mp3">
@@ -156,11 +163,9 @@
   </div>
 
   <script>
-    // รหัสผ่านตามที่กำหนด
     const AUTH_USER = "cheritamllwn@gmail.com";
     const AUTH_PASS = "feynas431789TRFG81cher";
 
-    // ฐานข้อมูลเฉพาะของ CHERTAMSINCLAIR
     const DB_SITE = "chertam_site_data";
     const DB_HL = "chertam_site_highlights";
     const DB_REVIEWS = "chertam_site_reviews";
@@ -232,6 +237,8 @@
     }
 
     function renderAdminPanels() {
+      document.getElementById('bannerUrlInput').value = siteData.banner || '';
+      document.getElementById('profileUrlInput').value = siteData.profile || '';
       document.getElementById('storeNameInput').value = siteData.storeName || '';
       document.getElementById('storeBioInput').value = siteData.storeBio || '';
       document.getElementById('musicUrlInput').value = siteData.musicUrl || '';
@@ -302,7 +309,6 @@
       }
     }
 
-    // บีบอัดระดับ Full HD (กว้าง 1080px คมชัดสูงมาก ไม่เบลอ 100%)
     function compressImageHD(file, maxWidth = 1080, quality = 0.85) {
       return new Promise(resolve => {
         const reader = new FileReader();
@@ -330,6 +336,8 @@
     async function uploadDirect(e, key) {
       if (e.target.files && e.target.files[0]) {
         siteData[key] = await compressImageHD(e.target.files[0], 800, 0.85);
+        if (key === 'banner') document.getElementById('bannerUrlInput').value = siteData[key];
+        if (key === 'profile') document.getElementById('profileUrlInput').value = siteData[key];
       }
     }
 
@@ -366,6 +374,12 @@
       btn.disabled = true;
       btn.textContent = 'กำลังบันทึกข้อมูลแบบ HD ขึ้นระบบ... ⏳';
 
+      // รับค่าแบนเนอร์/โปรไฟล์ (รองรับ GIF จาก URL โดยตรง)
+      const bannerUrlVal = document.getElementById('bannerUrlInput').value.trim();
+      const profileUrlVal = document.getElementById('profileUrlInput').value.trim();
+      if (bannerUrlVal) siteData.banner = bannerUrlVal;
+      if (profileUrlVal) siteData.profile = profileUrlVal;
+
       siteData.storeName = document.getElementById('storeNameInput').value;
       siteData.storeBio = document.getElementById('storeBioInput').value;
       siteData.musicUrl = document.getElementById('musicUrlInput').value.trim();
@@ -391,9 +405,7 @@
             hl.id = docId;
           }
 
-          // แยกเก็บรูปภาพทีละรูปใน Sub-collection "slides" (ไม่ติด Limit 1MB)
           const slidesRef = db.collection(DB_HL).doc(docId).collection("slides");
-          
           const existingSnap = await slidesRef.get();
           const batch = db.batch();
           existingSnap.forEach(d => batch.delete(d.ref));
@@ -408,7 +420,7 @@
           }
         }
 
-        alert('✨ บันทึกสำเร็จเรียบร้อยแล้วค่ะ! ภาพชัดระดับ Full HD ไม่จำกัดจำนวน');
+        alert('✨ บันทึกสำเร็จเรียบร้อยแล้วค่ะ! แบนเนอร์ GIF และภาพชัดระดับ Full HD อัปเดตทันที');
       } catch (err) {
         console.error(err);
         alert('เกิดข้อผิดพลาดในการบันทึก: ' + err.message);
@@ -431,7 +443,7 @@
           html += `
             <div style="background:#fff; border:1px solid var(--card-border); border-radius:16px; padding:12px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
               <div>
-                <div style="font-weight:700; font-size:13.5px;">${r.name} (${'⭐️'.repeat(r.stars || 5)})</div>
+                <div style="font-weight:700; font-size:13.5px;">${r.name} (${'★'.repeat(r.stars || 5)})</div>
                 <div style="font-size:12.5px; color:#595049;">${r.feedback}</div>
               </div>
               <button onclick="deleteReview('${doc.id}')" style="background:#faf8f5; border:1px solid var(--card-border); color:#ef4444; padding:4px 10px; border-radius:12px; font-size:11px; cursor:pointer;">ลบ 🗑️</button>
